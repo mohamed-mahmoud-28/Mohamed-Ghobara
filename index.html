@@ -66,11 +66,9 @@
   <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Load only needed font weights -->
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&family=Cairo:wght@500;700;900&display=swap"
     rel="stylesheet" />
-  <!-- Font Awesome with deferred load -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style"
     onload="this.onload=null;this.rel='stylesheet'" />
   <noscript>
@@ -153,7 +151,7 @@
     </div>
   </div>
 
-  <!-- Custom cursor (hidden from assistive tech) -->
+  <!-- Custom cursor -->
   <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 
@@ -191,13 +189,11 @@
         <!-- Theme toggle -->
         <button id="theme-btn" onclick="toggleTheme()" aria-label="Switch to light mode"
           class="w-[36px] h-[36px] rounded-[9px] border border-white/[0.07] bg-white/[0.03] text-[#667a8e] flex items-center justify-center transition-all duration-300 hover:border-[rgba(0,220,180,0.4)] hover:text-[#00dcb4] hover:bg-[rgba(0,220,180,0.12)]">
-          <!-- Sun icon (shown in dark mode) -->
           <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
             stroke="currentColor" class="w-[15px] h-[15px]" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <!-- Moon icon (shown in light mode) -->
           <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
             stroke="currentColor" class="w-[15px] h-[15px] hidden" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
@@ -281,7 +277,6 @@
     <!-- ═══ HERO SECTION ═══ -->
     <section id="home" class="min-h-screen pt-[64px] flex items-center relative overflow-hidden"
       aria-labelledby="hero-heading">
-      <!-- Background decorations -->
       <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div class="absolute w-[600px] h-[600px] rounded-full -top-[180px] -left-[180px]"
           style="background:radial-gradient(circle,rgba(0,220,180,0.16) 0%,transparent 70%);filter:blur(110px);opacity:0.6;animation:orbDrift1 12s ease-in-out infinite">
@@ -298,7 +293,6 @@
 
           <!-- Hero text content -->
           <div id="hero-text" class="reveal lg:text-left text-center">
-            <!-- Availability badge -->
             <div
               class="hero-tag-pill inline-flex items-center gap-[8px] px-3 py-[6px] rounded-full mb-5 border border-[rgba(0,220,180,0.28)]"
               style="background:rgba(0,220,180,0.12)" aria-label="Status: Available for work">
@@ -308,7 +302,6 @@
                 for work</span>
             </div>
 
-            <!-- H1 — Main page heading -->
             <h1 id="hero-heading" class="font-display font-black leading-[1.04] tracking-[-0.05em] mb-4"
               style="font-size:clamp(2rem,5.5vw,4.4rem)">
               <span class="text-[0.75em] font-semibold text-[#667a8e]" data-i18n="hero_title_1">Hi, I'm</span>
@@ -326,7 +319,6 @@
               attention to every detail.
             </p>
 
-            <!-- CTA buttons -->
             <div class="hero-buttons flex gap-3 flex-wrap lg:justify-start justify-center">
               <button onclick="downloadCV()"
                 class="btn-shimmer inline-flex items-center gap-[8px] px-6 py-[12px] rounded-[11px] bg-[#00dcb4] text-black font-bold text-[0.85rem] transition-all duration-300 hover:-translate-y-0.5"
@@ -339,7 +331,7 @@
                 <span data-i18n="hero_cv">Download CV</span>
               </button>
               <a href="#projects"
-                class="btn-shimmer inline-flex items-center gap-[8px] px-6 py-[11px] rounded-[11px] bg-white/[0.03] border border-white/[0.07] text-[#e4ecf5] font-semibold text-[0.85rem] transition-all duration-300 hover:border-[rgba(0,220,180,0.4)] hover:bg-[rgba(0,220,180,0.12)] hover:-translate-y-0.5">
+                class="btn-shimmer inline-flex items-center gap-[8px] px-6 py-[11px] rounded-[11px] bg-white/[0.03] border border-[#00dcb4] !text-[#00dcb4] dark:text-[#e4ecf5] font-semibold text-[0.85rem] transition-all duration-300 hover:border-[rgba(0,220,180,0.4)] hover:bg-[rgba(0,220,180,0.12)] hover:-translate-y-0.5">
                 <span data-i18n="hero_view">View Projects</span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                   stroke="currentColor" class="w-4 h-4" aria-hidden="true">
@@ -348,7 +340,6 @@
               </a>
             </div>
 
-            <!-- Stats -->
             <dl class="hero-stats flex gap-6 mt-10 lg:justify-start justify-center"
               aria-label="Professional statistics">
               <div class="flex flex-col gap-0.5">
@@ -380,7 +371,7 @@
             </dl>
           </div>
 
-          <!-- Profile photo — decorative, hidden from screen readers -->
+          <!-- Profile photo -->
           <div class="hidden lg:flex justify-center reveal reveal-d2" aria-hidden="true">
             <div class="photo-frame relative w-[320px] h-[390px]">
               <div
@@ -445,7 +436,6 @@
                 height="500"
                 class="w-full h-full object-cover object-top transition-transform duration-[600ms] hover:scale-[1.04]" />
             </div>
-            <!-- Projects badge -->
             <div
               class="about-card absolute -bottom-4 -right-4 p-4 bg-[#080f1a] border border-white/[0.07] rounded-[18px] text-center transition-all duration-300 hover:-translate-y-1 cursor-default"
               style="box-shadow:0 20px 50px rgba(0,0,0,0.7)" aria-hidden="true">
@@ -466,8 +456,7 @@
             </div>
             <p class="about-text text-[#667a8e] leading-[1.85] text-[0.92rem]" data-i18n="about_desc">
               I'm a front-end developer focused on creating clean, efficient web applications. With a keen eye for
-              design and strong foundation in modern web technologies, I deliver exceptional user experiences that
-              bridge the gap between form and function.
+              design and strong foundation in modern web technologies, I deliver exceptional user experiences.
             </p>
 
             <!-- Skills -->
@@ -528,9 +517,13 @@
           </h2>
         </header>
 
-        <!-- Slider -->
-        <div class="relative overflow-hidden rounded-[20px] reveal">
-          <div class="cert-slider" id="cert-slider" role="list">
+        <!-- ╔══════════════════════════════════════════════╗
+             ║  SLIDER — dir="ltr" on BOTH wrapper & track  ║
+             ║  This is the key fix: HTML attribute beats   ║
+             ║  CSS inheritance from body[dir="rtl"]        ║
+             ╚══════════════════════════════════════════════╝ -->
+        <div class="relative overflow-hidden rounded-[20px] reveal" dir="ltr">
+          <div class="cert-slider" id="cert-slider" role="list" dir="ltr">
 
             <!-- Certificate 1 -->
             <article class="cert-card" role="listitem">
@@ -649,7 +642,7 @@
 
         <!-- Slider controls -->
         <div class="flex items-center justify-center gap-4 mt-8 reveal" role="group"
-          aria-label="Certificate slider controls">
+          aria-label="Certificate slider controls" dir="ltr">
           <button id="prev-btn"
             class="w-[42px] h-[42px] rounded-full border border-white/[0.07] bg-white/[0.03] text-[#667a8e] flex items-center justify-center transition-all duration-300 hover:border-[#00dcb4] hover:text-[#00dcb4] hover:bg-[rgba(0,220,180,0.12)]"
             aria-label="Previous certificate">
@@ -692,9 +685,8 @@
             onmouseleave="this.style.boxShadow='none'">
             <div class="w-full overflow-hidden bg-[#0c1524]" style="aspect-ratio:16/9">
               <img class="proj-img-el w-full h-full object-cover transition-transform duration-[600ms]"
-                src="./Images/we.png"
-                alt="WE Applied Technology School website screenshot showing academic programs and admissions"
-                loading="lazy" width="600" height="338" />
+                src="./Images/we.png" alt="WE Applied Technology School website screenshot" loading="lazy" width="600"
+                height="338" />
             </div>
             <div class="p-6 flex-1 flex flex-col gap-3">
               <div class="flex flex-wrap gap-[6px]" aria-label="Technologies used">

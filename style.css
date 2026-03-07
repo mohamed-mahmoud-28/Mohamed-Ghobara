@@ -346,13 +346,27 @@ body::after {
     animation: blinkCursor 0.75s step-end infinite;
 }
 
-/* Section tag decoration */
+/* ═══ TAG LINE — stable for both LTR and RTL ═══ */
+.tag-line {
+    /* Always use row layout, never auto-reverse in RTL */
+    direction: ltr !important;
+    unicode-bidi: isolate;
+}
+
+/* LTR: line is on the left */
 .tag-line::before {
     content: '';
     width: 24px;
     height: 1px;
     background: #00dcb4;
     flex-shrink: 0;
+    display: block;
+}
+
+/* RTL: hide left line, show right line — both kept as before-element tricks */
+[dir="rtl"] .tag-line {
+    /* Keep visual direction stable; text inside still reads RTL */
+    direction: rtl !important;
 }
 
 [dir="rtl"] .tag-line::before {
@@ -365,9 +379,10 @@ body::after {
     height: 1px;
     background: #00dcb4;
     flex-shrink: 0;
+    display: block;
 }
 
-/* Highlighted text in headings */
+/* Section title highlight */
 .section-title em {
     font-style: normal;
     color: #00dcb4;
@@ -445,15 +460,56 @@ body::after {
 }
 
 /* ═══ CERTIFICATE SLIDER ═══ */
+
+/*
+ * Force the entire slider system to LTR at every level.
+ * dir="ltr" is also set as an HTML attribute on the wrapper
+ * and #cert-slider so the browser never flips flex order.
+ */
+
+#cert-slider-wrapper,
+#cert-slider {
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+}
+
 .cert-slider {
     display: flex;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
 }
 
 .cert-card {
     flex-shrink: 0;
     padding: 8px;
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+}
+
+/* Card shell: LTR for layout, text direction set per language */
+.cert-card-inner {
+    direction: ltr;
+}
+
+/* In Arabic: card content text reads RTL, layout stays put */
+[dir="rtl"] .cert-card-inner {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Slider controls: always prev | dots | next — never reversed */
+#certificates .flex.items-center.justify-center.gap-4 {
+    direction: ltr !important;
+    flex-direction: row !important;
+}
+
+[dir="rtl"] #certificates .flex.items-center.justify-center.gap-4 {
+    direction: ltr !important;
+    flex-direction: row !important;
 }
 
 /* ═══ NAVIGATION ═══ */
@@ -478,9 +534,10 @@ body::after {
     width: 100%;
 }
 
-/* Mobile aside menu */
+/* Mobile aside menu — always slides from right regardless of dir */
 .aside-menu {
     right: -100%;
+    left: auto !important;
     transition: right 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -488,15 +545,18 @@ body::after {
     right: 0;
 }
 
+/* RTL: keep aside on the right side (same visual position) */
 [dir="rtl"] .aside-menu {
-    right: auto;
-    left: -100%;
-    transition: left 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    right: -100%;
+    left: auto !important;
+    transition: right 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 [dir="rtl"] .aside-menu.open {
-    left: 0;
-    right: auto;
+    right: 0;
+    left: auto !important;
 }
 
 /* Hamburger animation */
@@ -633,8 +693,9 @@ body.has-custom-cursor select {
     transform: translateX(4px);
 }
 
+/* In RTL, hover shift stays the same direction (right) for stability */
 [dir="rtl"] .skill-item:hover {
-    transform: translateX(-4px);
+    transform: translateX(4px);
 }
 
 .ci:hover {
@@ -671,6 +732,9 @@ body.has-custom-cursor select {
     font-family: 'Space Mono', monospace;
     font-weight: 700;
     letter-spacing: -0.04em;
+    /* Always render logo LTR */
+    direction: ltr !important;
+    unicode-bidi: isolate;
 }
 
 .nexo-logo .ne {
@@ -687,6 +751,9 @@ body.has-custom-cursor select {
     pointer-events: none;
     transform: translateY(20px);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Always bottom-right regardless of dir */
+    right: 24px !important;
+    left: auto !important;
 }
 
 #scroll-top.visible {
@@ -709,6 +776,274 @@ body.has-custom-cursor select {
     to {
         transform: rotate(360deg);
     }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   RTL LAYOUT STABILITY — Keep Arabic visually
+   identical to English. We isolate only elements
+   that must flip (text, icons-in-text) and lock
+   everything else to its LTR position.
+═══════════════════════════════════════════════════ */
+
+/* ── Navbar: keep logo-left, controls-right ── */
+[dir="rtl"] header .flex.items-center.justify-between {
+    flex-direction: row !important;
+}
+
+/* Keep nav links in the same left→right order */
+[dir="rtl"] nav.hidden.md\:flex {
+    flex-direction: row !important;
+}
+
+/* Keep control buttons (theme/lang/hamburger) on the right */
+[dir="rtl"] header .flex.items-center.gap-2 {
+    flex-direction: row !important;
+}
+
+/* ── Mobile aside: keep internal layout LTR-stable ── */
+[dir="rtl"] #aside-menu nav.flex.flex-col a {
+    flex-direction: row !important;
+    text-align: left !important;
+}
+
+[dir="rtl"] #aside-menu nav.flex.flex-col a:hover {
+    transform: translateX(4px) !important;
+}
+
+/* ── Hero section ── */
+/* Grid stays left-text / right-photo */
+[dir="rtl"] #home .grid {
+    direction: ltr !important;
+}
+
+[dir="rtl"] #hero-text {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Availability badge — stays left (or right in RTL) but doesn't reflow grid */
+[dir="rtl"] .hero-tag-pill {
+    flex-direction: row !important;
+}
+
+/* CTA buttons: keep same row layout */
+[dir="rtl"] .hero-buttons {
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+}
+
+[dir="rtl"] .hero-buttons a,
+[dir="rtl"] .hero-buttons button {
+    flex-direction: row !important;
+}
+
+/* Stats row: keep LTR order (numbers | divider | numbers) */
+[dir="rtl"] .hero-stats {
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    direction: ltr !important;
+}
+
+[dir="rtl"] .hero-stats>div {
+    direction: rtl;
+}
+
+/* Floating chips on profile photo — locked by absolute positioning already */
+[dir="rtl"] .f-chip {
+    flex-direction: row !important;
+}
+
+/* ── About section ── */
+/* Grid: photo-left, text-right — keep same column order */
+[dir="rtl"] #about .grid {
+    direction: ltr !important;
+}
+
+[dir="rtl"] #about .reveal-right {
+    direction: rtl;
+}
+
+/* Skills grid: always 2-col, no reorder */
+[dir="rtl"] .skill-grid {
+    direction: ltr !important;
+}
+
+[dir="rtl"] .skill-item {
+    direction: rtl;
+    flex-direction: row !important;
+}
+
+/* ── Certificates section ── */
+/* Section header: centered, text reads RTL */
+[dir="rtl"] #certificates header {
+    direction: rtl;
+}
+
+/* The overflow container wrapping the slider — always LTR */
+[dir="rtl"] #certificates .relative.overflow-hidden {
+    direction: ltr !important;
+}
+
+/* Slider track — cards always flow left to right */
+[dir="rtl"] #cert-slider {
+    direction: ltr !important;
+    flex-direction: row !important;
+}
+
+/* Each card slot — stays in its column, never swaps */
+[dir="rtl"] .cert-card {
+    direction: ltr !important;
+}
+
+/* Card shell — text inside reads Arabic */
+[dir="rtl"] .cert-card-inner {
+    direction: rtl !important;
+    text-align: right;
+}
+
+/* Text content area inside card */
+[dir="rtl"] .cert-card-inner .p-5 {
+    direction: rtl !important;
+    text-align: right;
+}
+
+/* View button stays as a row */
+[dir="rtl"] .cert-view-btn {
+    flex-direction: row !important;
+}
+
+/* Slider controls: keep prev | dots | next left-to-right */
+[dir="rtl"] #certificates .flex.items-center.justify-center.gap-4 {
+    flex-direction: row !important;
+    direction: ltr !important;
+}
+
+/* ── Projects section ── */
+/* Grid stays 3-col, no reorder */
+[dir="rtl"] #projects .grid {
+    direction: ltr !important;
+}
+
+[dir="rtl"] .project-card {
+    direction: rtl;
+}
+
+/* Tech badge row stays LTR inside card */
+[dir="rtl"] .project-card .flex.flex-wrap.gap-\[6px\] {
+    direction: ltr !important;
+    justify-content: flex-start !important;
+}
+
+/* Action button row: keep live-demo left, github right */
+[dir="rtl"] .project-card .flex.gap-2.mt-1 {
+    flex-direction: row !important;
+    direction: ltr !important;
+}
+
+[dir="rtl"] .project-card a {
+    flex-direction: row !important;
+}
+
+/* ── Contact section ── */
+/* Grid: info-left, form-right */
+[dir="rtl"] #contact .grid {
+    direction: ltr !important;
+}
+
+[dir="rtl"] #contact address {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Contact info items: icon on the left, text on right — stable */
+[dir="rtl"] .ci {
+    flex-direction: row !important;
+    direction: rtl;
+}
+
+[dir="rtl"] .ci>div:first-child {
+    flex-shrink: 0;
+}
+
+/* Form card */
+[dir="rtl"] .form-card-bg {
+    direction: rtl;
+}
+
+/* Two-col form row stays 2-col */
+[dir="rtl"] #form-card .grid.grid-cols-1.sm\:grid-cols-2 {
+    direction: ltr !important;
+}
+
+[dir="rtl"] #form-card .grid.grid-cols-1.sm\:grid-cols-2>div {
+    direction: rtl;
+}
+
+/* Form input icon positioning for RTL */
+[dir="rtl"] .form-icon {
+    left: auto !important;
+    right: 0.75rem !important;
+}
+
+[dir="rtl"] .form-input-padded {
+    padding-left: 1rem !important;
+    padding-right: 2.75rem !important;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] .form-input {
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="rtl"] .form-input::placeholder {
+    text-align: right;
+}
+
+[dir="rtl"] label {
+    text-align: right;
+    display: block;
+}
+
+/* Submit button: keep icon right of text */
+[dir="rtl"] .submit-btn {
+    flex-direction: row !important;
+}
+
+/* ── Footer ── */
+/* Keep name-left, back-to-top-center, copyright-right */
+[dir="rtl"] footer .flex.items-center.justify-between {
+    flex-direction: row !important;
+    direction: ltr !important;
+}
+
+[dir="rtl"] footer .flex.items-center.justify-between>div,
+[dir="rtl"] footer .flex.items-center.justify-between>p {
+    direction: rtl;
+}
+
+/* ── Modal ── */
+/* Close button stays top-right */
+[dir="rtl"] #modal-close {
+    right: 0.75rem !important;
+    left: auto !important;
+}
+
+[dir="rtl"] .modal-box .px-6.py-4 {
+    direction: rtl;
+    text-align: right;
+}
+
+/* ── Section headers (centered) ── */
+[dir="rtl"] section header.text-center {
+    direction: rtl;
+    text-align: center !important;
+}
+
+[dir="rtl"] section header.text-center .tag-line {
+    justify-content: center !important;
 }
 
 
@@ -1159,7 +1494,8 @@ html.light .border-\[rgba\(0\,220\,180\,0\.28\)\] {
 
     #scroll-top {
         bottom: 16px;
-        right: 16px;
+        right: 16px !important;
+        left: auto !important;
     }
 
     .hero-tag-pill {
@@ -1222,47 +1558,6 @@ html.light .border-\[rgba\(0\,220\,180\,0\.28\)\] {
         opacity: 1;
         transform: none;
     }
-}
-
-/* RTL form adjustments */
-[dir="rtl"] .form-input {
-    text-align: right;
-    direction: rtl;
-}
-
-[dir="rtl"] .form-input::placeholder {
-    text-align: right;
-}
-
-[dir="rtl"] label {
-    text-align: right;
-    display: block;
-}
-
-[dir="rtl"] .form-icon {
-    left: auto !important;
-    right: 0.75rem !important;
-}
-
-[dir="rtl"] .form-input-padded {
-    padding-left: 1rem !important;
-    padding-right: 2.75rem !important;
-}
-
-[dir="rtl"] #hero-text {
-    text-align: right;
-}
-
-[dir="rtl"] #hero-text .tag-line {
-    justify-content: flex-end;
-}
-
-[dir="rtl"] #hero-text .hero-buttons {
-    justify-content: flex-start !important;
-}
-
-[dir="rtl"] #hero-text .hero-stats {
-    justify-content: flex-end;
 }
 
 /* Smooth theme color transitions only (not layout) */

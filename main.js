@@ -51,7 +51,7 @@ let currentLang = localStorage.getItem('lang') || 'en';
 let currentTheme = localStorage.getItem('theme') || 'dark';
 let sliderIndex = 0;
 let slidesPerView = 2;
-const TOTAL_CERTS = 4; // actual number of certificate cards
+const TOTAL_CERTS = 4;
 let autoSlideTimer = null;
 let twTimer = null;
 let twActiveLang = 'en';
@@ -68,14 +68,8 @@ function startTypewriter(lang) {
 
   if (lang === 'ar') {
     el.classList.add('rtl-cursor');
-    el.style.direction = 'rtl';
-    el.style.borderRight = 'none';
-    el.style.borderLeft = '3px solid #00dcb4';
   } else {
     el.classList.remove('rtl-cursor');
-    el.style.direction = 'ltr';
-    el.style.borderRight = '3px solid #00dcb4';
-    el.style.borderLeft = 'none';
   }
 
   const TYPE_SPEED = 85, DELETE_SPEED = 40, PAUSE_FULL = 2500, PAUSE_EMPTY = 400;
@@ -195,6 +189,8 @@ function applyLang(lang) {
   const t = translations[lang];
   document.documentElement.setAttribute('lang', lang);
   document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+  // Font family via class — CSS handles per-element overrides
   document.body.style.fontFamily = lang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', 'Cairo', sans-serif";
 
   const langBtn = document.getElementById('lang-btn');
@@ -214,28 +210,42 @@ function applyLang(lang) {
     el.placeholder = lang === 'ar' ? el.dataset.placeholderAr : el.dataset.placeholderEn;
   });
 
-  // RTL form icon & padding adjustments
+  // ── Form icon & padding: handled by CSS [dir="rtl"] rules.
+  // Only update inline styles that CSS cannot reach (the icon absolute position
+  // is already handled in style.css via [dir="rtl"] .form-icon).
+  // We keep this block only to stay compatible with dynamic form rebuilds.
   const formIcons = document.querySelectorAll('.form-icon');
   const formInputs = document.querySelectorAll('.form-input-padded');
   if (lang === 'ar') {
     formIcons.forEach(i => { i.style.left = 'auto'; i.style.right = '0.75rem'; });
-    formInputs.forEach(i => { i.style.paddingLeft = '1rem'; i.style.paddingRight = '2.75rem'; i.style.direction = 'rtl'; i.style.textAlign = 'right'; });
+    formInputs.forEach(i => {
+      i.style.paddingLeft = '1rem';
+      i.style.paddingRight = '2.75rem';
+      i.style.direction = 'rtl';
+      i.style.textAlign = 'right';
+    });
   } else {
     formIcons.forEach(i => { i.style.left = '0.75rem'; i.style.right = 'auto'; });
-    formInputs.forEach(i => { i.style.paddingLeft = '2.75rem'; i.style.paddingRight = '1rem'; i.style.direction = 'ltr'; i.style.textAlign = 'left'; });
+    formInputs.forEach(i => {
+      i.style.paddingLeft = '2.75rem';
+      i.style.paddingRight = '1rem';
+      i.style.direction = 'ltr';
+      i.style.textAlign = 'left';
+    });
   }
 
-  // Hero text alignment for RTL
+  // ── Hero text: text-align and direction only — no flex/justify overrides.
+  // All structural layout is handled by CSS [dir="rtl"] rules.
   const heroText = document.getElementById('hero-text');
   if (heroText) {
-    const isRtl = lang === 'ar';
-    heroText.style.textAlign = isRtl ? 'right' : '';
+    heroText.style.textAlign = lang === 'ar' ? 'right' : '';
+    // Remove any previously set inline flex overrides so CSS rules take over
     const hb = heroText.querySelector('.hero-buttons');
-    if (hb) hb.style.justifyContent = isRtl ? 'flex-start' : '';
+    if (hb) hb.style.justifyContent = '';
     const hs = heroText.querySelector('.hero-stats');
-    if (hs) hs.style.justifyContent = isRtl ? 'flex-start' : '';
+    if (hs) hs.style.justifyContent = '';
     const tl = heroText.querySelector('.tag-line');
-    if (tl) tl.style.justifyContent = isRtl ? 'flex-end' : '';
+    if (tl) tl.style.justifyContent = '';
   }
 
   // Restart typewriter with new language
@@ -285,7 +295,6 @@ function initHamburger() {
 /* ═══ SCROLL REVEAL ═══ */
 function initScrollReveal() {
   if (!('IntersectionObserver' in window)) {
-    // Fallback: show all elements
     document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => el.classList.add('visible'));
     return;
   }
@@ -333,6 +342,18 @@ function initActiveNav() {
 
 /* ═══ CERTIFICATE SLIDER ═══ */
 function initSlider() {
+  // Enforce LTR on slider elements regardless of page dir
+  const sliderEl = document.getElementById('cert-slider');
+  const sliderWrapper = sliderEl?.parentElement;
+  if (sliderEl) {
+    sliderEl.setAttribute('dir', 'ltr');
+    sliderEl.style.direction = 'ltr';
+  }
+  if (sliderWrapper) {
+    sliderWrapper.setAttribute('dir', 'ltr');
+    sliderWrapper.style.direction = 'ltr';
+  }
+
   updateSlidesPerView();
   renderDots();
   goToSlide(0);
@@ -384,6 +405,8 @@ function updateSlidesPerView() {
 function goToSlide(index) {
   const max = TOTAL_CERTS - slidesPerView;
   sliderIndex = Math.max(0, Math.min(index, max));
+  // Always translate in the LTR (positive = left) direction.
+  // The slider container has direction:ltr forced via CSS, so this is always correct.
   const offset = (100 / slidesPerView) * sliderIndex;
   const slider = document.getElementById('cert-slider');
   if (slider) slider.style.transform = `translateX(-${offset}%)`;
@@ -423,7 +446,6 @@ function initModal() {
   const closeBtn = document.getElementById('modal-close');
   if (!overlay || !closeBtn) return;
 
-  // Open modal when "View Certificate" button is clicked
   document.addEventListener('click', e => {
     const btn = e.target.closest('.cert-view-btn');
     if (!btn) return;
@@ -466,7 +488,6 @@ function initModal() {
 
 /* ═══ CUSTOM CURSOR ═══ */
 function initCursor() {
-  // Only on pointer/hover devices
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
   const dot = document.getElementById('cursor-dot');
@@ -492,7 +513,6 @@ function initCursor() {
     }
   }, { passive: true });
 
-  // Hover states on interactive elements
   const selector = 'a, button, [role="button"], .cert-card-inner, .project-card, .skill-item, .ci, input, textarea';
   document.querySelectorAll(selector).forEach(el => {
     el.addEventListener('mouseenter', () => {
@@ -509,7 +529,6 @@ function initCursor() {
     });
   });
 
-  // rAF animation loop
   function animate() {
     dot.style.transform = `translate(${mouseX - 3.5}px, ${mouseY - 3.5}px)`;
     ringX += (mouseX - ringX) * LERP;
@@ -572,7 +591,6 @@ function initContactForm() {
     const message = messageEl?.value.trim() || '';
     const isAr = currentLang === 'ar';
 
-    // Client-side validation
     if (!name) {
       showToast(isAr ? '⚠️ من فضلك أدخل اسمك' : '⚠️ Please enter your name.', 'error');
       nameEl?.focus();
