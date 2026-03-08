@@ -652,3 +652,6 @@ function setLoading(on) {
   if (btnText) btnText.style.display = on ? 'none' : 'inline';
   if (sendIcon) sendIcon.style.display = on ? 'none' : 'inline';
 }
+
+modalImg.src = imgSrc;
+modalImg.alt = certName + " certificate";

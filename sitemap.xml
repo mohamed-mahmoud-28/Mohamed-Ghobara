@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <url>
+    <loc>https://mohamedghobara.vercel.app/</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+
+    <image:image>
+      <image:loc>https://mohamedghobara.vercel.app/Images/mohamed%20mahmoud.png</image:loc>
+      <image:title>Mohamed Mahmoud Ghobara portrait</image:title>
+      <image:caption>Professional portrait of Mohamed Mahmoud Ghobara</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://mohamedghobara.vercel.app/Images/git.jpeg</image:loc>
+      <image:title>Mohamed Mahmoud Ghobara hero image</image:title>
+      <image:caption>Front-End Developer hero image</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://mohamedghobara.vercel.app/Images/Profile.png</image:loc>
+      <image:title>Portfolio website project</image:title>
+      <image:caption>Portfolio website project by Mohamed Mahmoud Ghobara</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://mohamedghobara.vercel.app/Images/restaurant.png</image:loc>
+      <image:title>Restaurant website project</image:title>
+      <image:caption>Restaurant website project by Mohamed Mahmoud Ghobara</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://mohamedghobara.vercel.app/Images/AI.jpg</image:loc>
+      <image:title>AI certificate</image:title>
+      <image:caption>AI certificate earned by Mohamed Mahmoud Ghobara</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://mohamedghobara.vercel.app/Images/First%20project%20in%20froont%20end.jfif</image:loc>
+      <image:title>Advanced HTML and CSS certificate</image:title>
+      <image:caption>Certificate earned by Mohamed Mahmoud Ghobara</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://mohamedghobara.vercel.app/Images/7t%20Team.jfif</image:loc>
+      <image:title>Technical Director certificate</image:title>
+      <image:caption>Certificate earned by Mohamed Mahmoud Ghobara</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://mohamedghobara.vercel.app/Images/Python.jfif</image:loc>
+      <image:title>Python certificate</image:title>
+      <image:caption>Python certificate earned by Mohamed Mahmoud Ghobara</image:caption>
+    </image:image>
+  </url>
+
+</urlset>
