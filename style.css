@@ -728,7 +728,7 @@ body.has-custom-cursor select {
 }
 
 /* ═══ LOGO ═══ */
-.nexo-logo {
+.neno-logo {
     font-family: 'Space Mono', monospace;
     font-weight: 700;
     letter-spacing: -0.04em;
@@ -737,11 +737,11 @@ body.has-custom-cursor select {
     unicode-bidi: isolate;
 }
 
-.nexo-logo .ne {
+.neno-logo .ne {
     color: var(--logo-text, #e4ecf5);
 }
 
-.nexo-logo .xo {
+.neno-logo .xo {
     color: #00dcb4;
 }
 
@@ -1069,7 +1069,7 @@ html.dark .aside-menu {
     color: #e4ecf5;
 }
 
-html.dark .nexo-logo .ne {
+html.dark .neno-logo .ne {
     color: #e4ecf5;
 }
 
@@ -1155,7 +1155,7 @@ html.light .project-card a[aria-label*="source code"]:hover {
 }
 
 /* Logo */
-html.light .nexo-logo .ne {
+html.light .neno-logo .ne {
     color: #0d1b2a !important;
 }
 
